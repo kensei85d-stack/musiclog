@@ -221,24 +221,3 @@ musiclog/
   │     └── specification.md  ← このファイル
   └── README.md
 ```
-
----
-
-## 🚀 GitHub に反映する手順（最短）
-
-```
-mkdir docs
-```
-
-VS Code で `docs/specification.md` を作成してこの内容を貼り付ける。
-
-```
-git add docs/specification.md
-git commit -m "Add API specification"
-git push
-```
-
----
-
-必要なら、**ER 図・API エラー仕様・レスポンスコード一覧・ユースケース図**も追加できます。  
-次にどの部分を仕様書に追加したいか教えてください。
