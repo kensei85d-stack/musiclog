@@ -1,3 +1,3 @@
-from sqlalchemy.orm import declarative_base
+from backend.app.core.database import Base
 
-Base = declarative_base()
+__all__ = ['Base']

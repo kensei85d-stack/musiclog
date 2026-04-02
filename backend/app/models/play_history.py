@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, ForeignKey, DateTime
 from sqlalchemy.orm import relationship
-from models import Base
+from backend.app.core.database import Base
 
 class PlayHistory(Base):
     __tablename__ = "play_histories"

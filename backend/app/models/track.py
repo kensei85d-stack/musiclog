@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, String, ForeignKey
 from sqlalchemy.orm import relationship
-from models import Base
+from backend.app.core.database import Base
 
 class Track(Base):
     __tablename__ = "tracks"

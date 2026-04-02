@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from app.routers import auth, history, stats  # 後で作る
+# from backend.app.routers import auth, history, stats  # 後で実装
 
 app = FastAPI(
     title="MusicLog API",
@@ -7,9 +7,9 @@ app = FastAPI(
 )
 
 # ルーター登録（後で実装）
-app.include_router(auth.router, prefix="/auth", tags=["auth"])
-app.include_router(history.router, prefix="/history", tags=["history"])
-app.include_router(stats.router, prefix="/stats", tags=["stats"])
+# app.include_router(auth.router, prefix="/auth", tags=["auth"])
+# app.include_router(history.router, prefix="/history", tags=["history"])
+# app.include_router(stats.router, prefix="/stats", tags=["stats"])
 
 @app.get("/")
 def root():
