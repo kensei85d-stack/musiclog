@@ -7,9 +7,8 @@ from alembic import context
 
 from backend.app.core.config import settings
 
-# Import Base directly without creating engine
-from sqlalchemy.orm import declarative_base
-Base = declarative_base()
+# Import the correct Base from backend app
+from backend.app.core.database import Base
 
 # Import all models to register them
 from backend.app.models.user import User
