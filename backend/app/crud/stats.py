@@ -12,6 +12,22 @@ def _load_play_histories(db: Session):
     ).all()
 
 
+def stats_summary(db: Session):
+    histories = _load_play_histories(db)
+    total_logs = len(histories)
+    counts = Counter(
+        history.track.artist.name
+        for history in histories
+        if history.track is not None and history.track.artist is not None
+    )
+    favorite_artist = counts.most_common(1)[0][0] if counts else None
+    return {
+        "total_logs": total_logs,
+        "favorite_artist": favorite_artist,
+        "average_rating": None,
+    }
+
+
 def stats_by_artist(db: Session):
     histories = _load_play_histories(db)
     counts = Counter(

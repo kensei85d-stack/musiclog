@@ -49,3 +49,12 @@ def decode_access_token(token: str) -> dict:
         return payload
     except JWTError:
         return {}
+
+# リフレッシュトークン（有効期限は長め）
+REFRESH_TOKEN_EXPIRE_MINUTES = 60 * 24 * 7  # 7 日間
+
+def create_refresh_token(data: dict, expires_delta: Optional[timedelta] = None) -> str:
+    return create_access_token(
+        data,
+        expires_delta or timedelta(minutes=REFRESH_TOKEN_EXPIRE_MINUTES),
+    )

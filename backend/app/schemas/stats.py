@@ -1,4 +1,5 @@
 from datetime import date
+from typing import Optional
 from pydantic import BaseModel
 
 
@@ -25,3 +26,9 @@ class DailyStats(BaseModel):
 class YearlyStats(BaseModel):
     year: int
     count: int
+
+
+class StatsSummary(BaseModel):
+    total_logs: int
+    favorite_artist: Optional[str] = None
+    average_rating: Optional[float] = None

@@ -9,9 +9,9 @@ app = FastAPI(
 )
 
 # ルーター登録
-app.include_router(auth.router, prefix="/auth", tags=["auth"])
-app.include_router(history.router, prefix="/history", tags=["history"])
-app.include_router(stats.router, prefix="/stats", tags=["stats"])
+app.include_router(auth.router, tags=["auth"])
+app.include_router(history.router, tags=["history"])
+app.include_router(stats.router, tags=["stats"])
 
 @app.get("/")
 def root():
