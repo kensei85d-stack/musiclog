@@ -2,22 +2,20 @@
 MusicLog API テストスイート
 pytest で全 API エンドポイントをテスト
 """
+import uuid
 import pytest
 from fastapi.testclient import TestClient
 from backend.main import app
-from backend.app.core.database import get_db, get_session
-from backend.app.models.user import User
-from backend.app.models.artist import Artist
-from backend.app.models.track import Track
-from sqlalchemy.orm import Session
 
 # TestClient を初期化
 client = TestClient(app)
 
-# グローバル変数でトークンを保存
+# グローバル変数でトークン・ユーザー情報を保存
 ACCESS_TOKEN = None
 REFRESH_TOKEN = None
 USER_ID = None
+TEST_USER_EMAIL = None
+TEST_USER_PASSWORD = "password123"
 
 
 class TestAuth:
@@ -25,20 +23,22 @@ class TestAuth:
     
     def test_01_signup(self):
         """ユーザー登録"""
+        global TEST_USER_EMAIL, TEST_USER_PASSWORD, USER_ID
+        TEST_USER_EMAIL = f"testuser-{uuid.uuid4().hex[:8]}@example.com"
+        username = f"testuser_{uuid.uuid4().hex[:6]}"
         response = client.post(
             "/auth/signup",
             json={
-                "username": "testuser",
-                "email": "test@example.com",
-                "password": "password123"
+                "username": username,
+                "email": TEST_USER_EMAIL,
+                "password": TEST_USER_PASSWORD
             }
         )
         assert response.status_code == 200
         data = response.json()
-        assert data["username"] == "testuser"
-        assert data["email"] == "test@example.com"
+        assert data["username"] == username
+        assert data["email"] == TEST_USER_EMAIL
         assert "id" in data
-        global USER_ID
         USER_ID = data["id"]
         print(f"✅ テスト 1 成功: ユーザー登録 (ID: {USER_ID})")
     
@@ -47,8 +47,8 @@ class TestAuth:
         response = client.post(
             "/auth/login",
             json={
-                "email": "test@example.com",
-                "password": "password123"
+                "email": TEST_USER_EMAIL,
+                "password": TEST_USER_PASSWORD
             }
         )
         assert response.status_code == 200
@@ -72,7 +72,7 @@ class TestAuth:
         assert response.status_code == 200
         data = response.json()
         assert data["id"] == USER_ID
-        assert data["email"] == "test@example.com"
+        assert data["email"] == TEST_USER_EMAIL
         print(f"✅ テスト 3 成功: 認証確認 (Me)")
 
 
@@ -258,8 +258,8 @@ class TestAuthError:
     def test_18_stats_without_auth(self):
         """認証なしで統計 API アクセス - 401 エラー"""
         response = client.get("/stats/")
-        assert response.status_code == 403
-        print(f"✅ テスト 18 成功: 認証なしで 403 エラー")
+        assert response.status_code == 401
+        print(f"✅ テスト 18 成功: 認証なしで 401 エラー")
     
     def test_19_invalid_token(self):
         """無効なトークンで API アクセス - 401 エラー"""
